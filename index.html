@@ -32,6 +32,15 @@
 
 <button onclick="deleteChecked()">Delete Checked Items</button>
 
+<div id="deleteConfirm" style="display:none;">
+
+    <p>Are you sure you want to delete the selected items?</p>
+
+    <button onclick="confirmDelete()">Yes</button>
+
+    <button onclick="cancelDelete()">Cancel</button>
+
+</div>
 
 <script>
 
@@ -71,20 +80,24 @@ function addItem() {
 
 function deleteChecked() {
 
-    let confirmDelete = confirm(
-        "Are you sure you want to delete the selected items?"
-    );
+    document.getElementById("deleteConfirm").style.display = "block";
+
+}
 
 
-    if (!confirmDelete) {
-        return;
-    }
+function cancelDelete() {
 
+    document.getElementById("deleteConfirm").style.display = "none";
+
+}
+
+
+function confirmDelete() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
 
-    let checkedBoxes = document.querySelectorAll(
+    let checkboxes = document.querySelectorAll(
         "#list input[type='checkbox']:checked"
     );
 
@@ -92,7 +105,7 @@ function deleteChecked() {
     let deleteIDs = [];
 
 
-    checkedBoxes.forEach(box => {
+    checkboxes.forEach(box => {
 
         deleteIDs.push(
             Number(box.dataset.id)
@@ -110,6 +123,9 @@ function deleteChecked() {
         "items",
         JSON.stringify(items)
     );
+
+
+    document.getElementById("deleteConfirm").style.display = "none";
 
 
     displayItems();
