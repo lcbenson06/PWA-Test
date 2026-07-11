@@ -249,12 +249,6 @@ function generateList() {
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
     debugPrint("Before generate");
-
-    let selectedItems = items.filter(i => i.selected);
-
-    console.log("SELECTED:", selectedItems);
-
-    alert(JSON.stringify(selectedItems, null, 2));
     
     let checkboxes = document.querySelectorAll(
         "#list input[type='checkbox']:checked"
@@ -355,7 +349,7 @@ ${item}
 }
 
 displayItems();
-
+console.log("SCRIPT LOADED");
 </script>
 
 </body>
