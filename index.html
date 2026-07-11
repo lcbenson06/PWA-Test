@@ -156,36 +156,70 @@ function generateList() {
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
 
+    // Only use checked items
+    let selectedItems = items.filter(item => item.selected);
+
+
+    // Group items by category
+    let categories = {};
+
+
+    selectedItems.forEach(item => {
+
+        if (!categories[item.category]) {
+            categories[item.category] = [];
+        }
+
+        categories[item.category].push(item.name);
+
+    });
+
+
+    // Sort categories alphabetically
+    let sortedCategories = Object.keys(categories).sort();
+
+
     let html = `
 <!DOCTYPE html>
 <html>
 <body>
 
 <h1>Shopping List</h1>
+`;
 
+
+    sortedCategories.forEach(category => {
+
+
+        html += `
+<h2>${category}</h2>
 <ul>
 `;
 
 
-    items
-    .filter(item => item.selected)
-    .forEach(item => {
+        // Sort items alphabetically inside category
+        categories[category]
+            .sort()
+            .forEach(item => {
+
+                html += `
+<li>
+<input type="checkbox">
+${item}
+</li>
+`;
+
+            });
 
 
         html += `
-<li>
-<input type="checkbox">
-${item.name} (${item.category})
-</li>
+</ul>
 `;
 
     });
 
 
-
     html += `
-</ul>
-
 </body>
 </html>
 `;
@@ -204,7 +238,6 @@ ${item.name} (${item.category})
     link.href = URL.createObjectURL(file);
 
     link.download = "shopping_list.html";
-
 
     link.click();
 
