@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Grocery Test</h1>
+
+<input id="item" placeholder="New item">
+<button onclick="addItem()">Add</button>
+
+<h2>Items:</h2>
+<ul id="list"></ul>
+
+<script>
+
+function addItem() {
+    let input = document.getElementById("item");
+
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+    items.push(input.value);
+
+    localStorage.setItem(
+        "items",
+        JSON.stringify(items)
+    );
+
+    input.value = "";
+
+    displayItems();
+}
+
+
+function displayItems() {
+
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+    let list = document.getElementById("list");
+
+    list.innerHTML = "";
+
+    items.forEach(item => {
+
+        let li = document.createElement("li");
+
+        li.textContent = item;
+
+        list.appendChild(li);
+
+    });
+}
+
+
+displayItems();
+
+</script>
+
+</body>
+</html>
