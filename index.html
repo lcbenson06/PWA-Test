@@ -10,6 +10,8 @@
 <h2>Items:</h2>
 <ul id="list"></ul>
 
+<button onclick="generateList()">Generate Shopping List</button>
+
 <script>
 
 function addItem() {
@@ -47,6 +49,57 @@ function displayItems() {
         list.appendChild(li);
 
     });
+}
+
+
+function generateList() {
+
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+    let html = `
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Shopping List</h1>
+
+<ul>
+`;
+
+    items.forEach(item => {
+
+        html += `
+<li>
+<input type="checkbox">
+${item}
+</li>
+`;
+
+    });
+
+
+    html += `
+</ul>
+
+</body>
+</html>
+`;
+
+
+    let file = new Blob(
+        [html],
+        {type: "text/html"}
+    );
+
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(file);
+
+    link.download = "shopping_list.html";
+
+    link.click();
+
 }
 
 
