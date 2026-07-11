@@ -71,7 +71,7 @@ function addItem() {
 
 
     document.getElementById("item").value = "";
-    document.getElementById("category").value = "";
+    document.getElementById("category").selectedIndex = 0;
 
 
     displayItems();
@@ -175,7 +175,7 @@ function displayItems() {
 
 
         // Sort items alphabetically within category
-        categories[category]
+        [...categories[category]]
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach(item => {
 
@@ -194,13 +194,21 @@ function displayItems() {
 
                 checkbox.onchange = function() {
 
-                    item.selected = checkbox.checked;
-
+                    let updatedItems = items.map(i => {
+                        if (i.id === item.id) {
+                            return {
+                                ...i,
+                                selected: checkbox.checked
+                            };
+                        }
+                        return i;
+                    });
+                
                     localStorage.setItem(
                         "items",
-                        JSON.stringify(items)
+                        JSON.stringify(updatedItems)
                     );
-
+                
                 };
 
 
