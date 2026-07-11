@@ -210,7 +210,7 @@ function displayItems() {
                         "items",
                         JSON.stringify(updatedItems)
                     );
-                
+                    debugPrint("After checkbox change");
                 };
 
 
@@ -230,7 +230,7 @@ function displayItems() {
             });
 
     });
-
+    debugPrint("After displayItems()");
 }
 
 
@@ -238,6 +238,14 @@ function generateList() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
+    debugPrint("Before generate");
+
+    let selectedItems = items.filter(i => i.selected);
+
+    console.log("SELECTED:", selectedItems);
+
+    alert(JSON.stringify(selectedItems, null, 2));
+    
     let checkboxes = document.querySelectorAll(
         "#list input[type='checkbox']:checked"
     );
@@ -336,7 +344,7 @@ ${item}
 
 }
 
-
+<pre id="debugBox" style="background:#111;color:#0f0;padding:10px;"></pre>
 
 displayItems();
 
