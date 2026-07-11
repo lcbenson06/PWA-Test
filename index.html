@@ -236,9 +236,19 @@ function generateList() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
-
-    // Only use checked items
-    let selectedItems = items.filter(item => item.selected);
+    let checkboxes = document.querySelectorAll(
+        "#list input[type='checkbox']:checked"
+    );
+    
+    let selectedIDs = [];
+    
+    checkboxes.forEach(box => {
+        selectedIDs.push(Number(box.dataset.id));
+    });
+    
+    let selectedItems = items.filter(item =>
+        selectedIDs.includes(item.id)
+    );
 
 
     // Group items by category
