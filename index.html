@@ -48,6 +48,7 @@ function addItem() {
 
 
     items.push({
+        id: Date.now(),
         name: name,
         category: category,
         selected: false
@@ -82,23 +83,32 @@ function deleteChecked() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
-    let checkboxes = document.querySelectorAll("#list input[type='checkbox']");
 
-    let remainingItems = [];
+    let checkedBoxes = document.querySelectorAll(
+        "#list input[type='checkbox']:checked"
+    );
 
 
-    items.forEach((item, index) => {
+    let deleteIDs = [];
 
-        if (!checkboxes[index].checked) {
-            remainingItems.push(item);
-        }
+
+    checkedBoxes.forEach(box => {
+
+        deleteIDs.push(
+            Number(box.dataset.id)
+        );
 
     });
 
 
+    items = items.filter(item =>
+        !deleteIDs.includes(item.id)
+    );
+
+
     localStorage.setItem(
         "items",
-        JSON.stringify(remainingItems)
+        JSON.stringify(items)
     );
 
 
@@ -160,6 +170,8 @@ function displayItems() {
                 let checkbox = document.createElement("input");
 
                 checkbox.type = "checkbox";
+                
+                checkbox.dataset.id = item.id;
 
                 checkbox.checked = item.selected;
 
