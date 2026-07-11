@@ -2,34 +2,58 @@
 <html>
 <body>
 
-<h1>Grocery Test</h1>
+<h1>Grocery List</h1>
 
-<input id="item" placeholder="New item">
+<input id="item" placeholder="Item name">
+
+<input id="category" placeholder="Category">
+
 <button onclick="addItem()">Add</button>
 
-<h2>Items:</h2>
+
+<h2>My Items:</h2>
+
 <ul id="list"></ul>
 
+
 <button onclick="generateList()">Generate Shopping List</button>
+
 
 <script>
 
 function addItem() {
-    let input = document.getElementById("item");
+
+    let name = document.getElementById("item").value;
+    let category = document.getElementById("category").value;
+
+    if (name === "") {
+        return;
+    }
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
-    items.push(input.value);
+
+    items.push({
+        name: name,
+        category: category,
+        selected: false
+    });
+
 
     localStorage.setItem(
         "items",
         JSON.stringify(items)
     );
 
-    input.value = "";
+
+    document.getElementById("item").value = "";
+    document.getElementById("category").value = "";
+
 
     displayItems();
+
 }
+
 
 
 function displayItems() {
@@ -40,21 +64,56 @@ function displayItems() {
 
     list.innerHTML = "";
 
-    items.forEach(item => {
+
+    items.forEach((item, index) => {
+
 
         let li = document.createElement("li");
 
-        li.textContent = item;
+
+        let checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+
+        checkbox.checked = item.selected;
+
+
+        checkbox.onchange = function() {
+
+            items[index].selected = checkbox.checked;
+
+
+            localStorage.setItem(
+                "items",
+                JSON.stringify(items)
+            );
+
+        };
+
+
+        li.appendChild(checkbox);
+
+
+        li.appendChild(
+            document.createTextNode(
+                " " + item.name + " (" + item.category + ")"
+            )
+        );
+
 
         list.appendChild(li);
 
+
     });
+
 }
+
 
 
 function generateList() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
+
 
     let html = `
 <!DOCTYPE html>
@@ -66,16 +125,21 @@ function generateList() {
 <ul>
 `;
 
-    items.forEach(item => {
+
+    items
+    .filter(item => item.selected)
+    .forEach(item => {
+
 
         html += `
 <li>
 <input type="checkbox">
-${item}
+${item.name} (${item.category})
 </li>
 `;
 
     });
+
 
 
     html += `
@@ -86,6 +150,7 @@ ${item}
 `;
 
 
+
     let file = new Blob(
         [html],
         {type: "text/html"}
@@ -94,13 +159,16 @@ ${item}
 
     let link = document.createElement("a");
 
+
     link.href = URL.createObjectURL(file);
 
     link.download = "shopping_list.html";
 
+
     link.click();
 
 }
+
 
 
 displayItems();
