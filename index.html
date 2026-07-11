@@ -106,49 +106,85 @@ function displayItems() {
     list.innerHTML = "";
 
 
-    items.forEach((item, index) => {
+    // Group items by category
+    let categories = {};
 
 
-        let li = document.createElement("li");
+    items.forEach(item => {
+
+        if (!categories[item.category]) {
+            categories[item.category] = [];
+        }
+
+        categories[item.category].push(item);
+
+    });
 
 
-        let checkbox = document.createElement("input");
-
-        checkbox.type = "checkbox";
-
-        checkbox.checked = item.selected;
+    // Sort categories alphabetically
+    let sortedCategories = Object.keys(categories).sort();
 
 
-        checkbox.onchange = function() {
-
-            items[index].selected = checkbox.checked;
+    let displayIndex = 0;
 
 
-            localStorage.setItem(
-                "items",
-                JSON.stringify(items)
-            );
-
-        };
+    sortedCategories.forEach(category => {
 
 
-        li.appendChild(checkbox);
+        let categoryTitle = document.createElement("h3");
+
+        categoryTitle.textContent = category;
+
+        list.appendChild(categoryTitle);
 
 
-        li.appendChild(
-            document.createTextNode(
-                " " + item.name + " (" + item.category + ")"
-            )
-        );
+
+        // Sort items alphabetically within category
+        categories[category]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach(item => {
 
 
-        list.appendChild(li);
+                let li = document.createElement("li");
 
+
+                let checkbox = document.createElement("input");
+
+                checkbox.type = "checkbox";
+
+                checkbox.checked = item.selected;
+
+
+                checkbox.onchange = function() {
+
+                    item.selected = checkbox.checked;
+
+                    localStorage.setItem(
+                        "items",
+                        JSON.stringify(items)
+                    );
+
+                };
+
+
+                li.appendChild(checkbox);
+
+
+                li.appendChild(
+                    document.createTextNode(
+                        " " + item.name
+                    )
+                );
+
+
+                list.appendChild(li);
+
+
+            });
 
     });
 
 }
-
 
 
 function generateList() {
