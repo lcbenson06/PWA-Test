@@ -18,6 +18,8 @@
 
 <button onclick="generateList()">Generate Shopping List</button>
 
+<button onclick="deleteChecked()">Delete Checked Items</button>
+
 
 <script>
 
@@ -54,7 +56,23 @@ function addItem() {
 
 }
 
+function deleteChecked() {
 
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+
+    items = items.filter(item => !item.selected);
+
+
+    localStorage.setItem(
+        "items",
+        JSON.stringify(items)
+    );
+
+
+    displayItems();
+
+}
 
 function displayItems() {
 
