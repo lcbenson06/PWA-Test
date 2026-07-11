@@ -194,7 +194,9 @@ function displayItems() {
 
                 checkbox.onchange = function() {
 
-                    let updatedItems = items.map(i => {
+                    let currentItems = JSON.parse(localStorage.getItem("items")) || [];
+                
+                    let updatedItems = currentItems.map(i => {
                         if (i.id === item.id) {
                             return {
                                 ...i,
