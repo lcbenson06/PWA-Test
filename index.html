@@ -60,13 +60,24 @@ function deleteChecked() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
+    let checkboxes = document.querySelectorAll("#list input[type='checkbox']");
 
-    items = items.filter(item => !item.selected);
+
+    let remainingItems = [];
+
+
+    items.forEach((item, index) => {
+
+        if (!checkboxes[index].checked) {
+            remainingItems.push(item);
+        }
+
+    });
 
 
     localStorage.setItem(
         "items",
-        JSON.stringify(items)
+        JSON.stringify(remainingItems)
     );
 
 
