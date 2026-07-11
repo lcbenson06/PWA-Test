@@ -131,7 +131,17 @@ function confirmDelete() {
     displayItems();
 
 }
+function debugPrint(label = "") {
+    const data = JSON.parse(localStorage.getItem("items")) || [];
 
+    console.log("DEBUG:", label, data);
+
+    const box = document.getElementById("debugBox");
+    if (box) {
+        box.textContent =
+            label + "\n" + JSON.stringify(data, null, 2);
+    }
+}
 function displayItems() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
