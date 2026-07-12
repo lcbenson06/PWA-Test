@@ -34,7 +34,7 @@ placeholder="Paste items here..."></textarea>
 <h2>My Items:</h2>
 
 <ul id="list"></ul>
-
+    
 <button onclick="generateList()">Generate Shopping List</button>
 
 <button onclick="deleteChecked()">Delete Checked Items</button>
@@ -393,7 +393,23 @@ ${item}
     link.click();
 
 }
+<button id="uncheckAllBtn">Uncheck All</button>
 
+<div id="list"></div>
+
+<script>
+document.getElementById("uncheckAllBtn").addEventListener("click", () => {
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+    items.forEach(item => {
+        item.selected = false;
+    });
+
+    localStorage.setItem("items", JSON.stringify(items));
+
+    document.getElementById("list").innerHTML = "";
+    displayItems();
+});
 displayItems();
 console.log("SCRIPT LOADED");
 </script>
