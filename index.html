@@ -321,46 +321,49 @@ function generateList() {
     let html = `
 <!DOCTYPE html>
 <html>
-<body>
+
+<head>
 
 <style>
 
 body {
     background-color: beige;
-    font-size: 200%;
     font-family: Arial, sans-serif;
+    font-size: 300%;
     padding: 20px;
 }
 
-input, select, button, textarea {
-    font-size: 100%;
-    padding: 10px;
-}
-
-button {
-    margin: 10px 0;
-}
-button {
-    width: 100%;
-    max-width: 500px;
-}
-li {
-    margin: 10px 0;
-}
-
 h1 {
-    margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
-h2, h3 {
-    margin-top: 25px;
+h2 {
+    margin-top: 40px;
+    font-size: 1.2em;
 }
 
-textarea {
-    width: 90%;
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin: 25px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Large phone-friendly checkbox */
+input[type="checkbox"] {
+    width: 70px;
+    height: 70px;
+    margin-right: 25px;
 }
 
 </style>
+
+</head>
+
+<body>
 
 <h1>Shopping List</h1>
 `;
@@ -437,7 +440,6 @@ document.getElementById("uncheckAllBtn").addEventListener("click", () => {
 
 });
 displayItems();
-console.log("SCRIPT LOADED");
 </script>
 
 </body>
