@@ -22,11 +22,18 @@
 
 <button onclick="addItem()">Add</button>
 
+<h3>Import Items</h3>
+
+<textarea id="bulkInput" rows="6" cols="40"
+placeholder="Paste items here..."></textarea>
+
+<br>
+
+<button onclick="importItems()">Import List</button>
 
 <h2>My Items:</h2>
 
 <ul id="list"></ul>
-
 
 <button onclick="generateList()">Generate Shopping List</button>
 
@@ -78,6 +85,45 @@ function addItem() {
 
 }
 
+function importItems() {
+
+    let text = document.getElementById("bulkInput").value;
+
+    if (!text.trim()) return;
+
+    let lines = text.split("\n");
+
+    let newItems = [];
+
+    lines.forEach(line => {
+
+        let parts = line.split(",");
+
+        let name = parts[0]?.trim();
+        let category = parts[1]?.trim() || "Other";
+
+        if (name) {
+            newItems.push({
+                id: Date.now() + Math.random(),
+                name: name,
+                category: category,
+                selected: false
+            });
+        }
+
+    });
+
+    // 🚨 Replace existing list completely
+    localStorage.setItem(
+        "items",
+        JSON.stringify(newItems)
+    );
+
+    document.getElementById("bulkInput").value = "";
+
+    displayItems();
+}
+    
 function deleteChecked() {
 
     document.getElementById("deleteConfirm").style.display = "block";
