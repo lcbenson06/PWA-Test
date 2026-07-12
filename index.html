@@ -50,7 +50,6 @@ placeholder="Paste items here..."></textarea>
     <button onclick="cancelDelete()">Cancel</button>
 
 </div>
-<pre id="debugBox" style="background:#111;color:#0f0;padding:10px;"></pre>
 <script>
 
 function addItem() {
@@ -179,17 +178,7 @@ function confirmDelete() {
     displayItems();
 
 }
-function debugPrint(label = "") {
-    const data = JSON.parse(localStorage.getItem("items")) || [];
 
-    console.log("DEBUG:", label, data);
-
-    const box = document.getElementById("debugBox");
-    if (box) {
-        box.textContent =
-            label + "\n" + JSON.stringify(data, null, 2);
-    }
-}
 function displayItems() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
@@ -268,7 +257,6 @@ function displayItems() {
                         "items",
                         JSON.stringify(updatedItems)
                     );
-                    debugPrint("After checkbox change");
                 };
 
 
@@ -288,7 +276,6 @@ function displayItems() {
             });
 
     });
-    debugPrint("After displayItems()");
 }
 
 
@@ -296,7 +283,6 @@ function generateList() {
 
     let items = JSON.parse(localStorage.getItem("items")) || [];
 
-    debugPrint("Before generate");
     
     let checkboxes = document.querySelectorAll(
         "#list input[type='checkbox']:checked"
@@ -336,6 +322,45 @@ function generateList() {
 <!DOCTYPE html>
 <html>
 <body>
+
+<style>
+
+body {
+    background-color: beige;
+    font-size: 200%;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+input, select, button, textarea {
+    font-size: 100%;
+    padding: 10px;
+}
+
+button {
+    margin: 10px 0;
+}
+button {
+    width: 100%;
+    max-width: 500px;
+}
+li {
+    margin: 10px 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2, h3 {
+    margin-top: 25px;
+}
+
+textarea {
+    width: 90%;
+}
+
+</style>
 
 <h1>Shopping List</h1>
 `;
